@@ -170,6 +170,46 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/MetaDataJson')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RawData",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Raw Data sets"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "ingestion_Meta_data.json",
+						"fileSystem": "configs"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"name": {
+							"type": "string"
+						},
+						"source_path": {
+							"type": "string"
+						},
+						"file_pattern": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RawData')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Orders')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
