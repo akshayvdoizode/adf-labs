@@ -1,0 +1,129 @@
+{
+	"name": "PL_MetadataDriven_Ingestion",
+	"properties": {
+		"activities": [
+			{
+				"name": "Meta Data Look UP",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "MetaDataJson",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Meta Data Look UP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Meta Data Look UP').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"wildcardFileName": "@item().file_pattern",
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_Raw_Generic",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileSystem": {
+											"value": "@item().source_container",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_Immutable_Generic",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileSystem": {
+											"value": "@item().sink_container",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	}
+}

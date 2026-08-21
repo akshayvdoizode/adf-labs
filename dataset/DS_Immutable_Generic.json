@@ -1,0 +1,30 @@
+{
+	"name": "DS_Immutable_Generic",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ImmutableCopyConn",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileSystem": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "LandingZone Datasets"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": {
+					"value": "@dataset().fileSystem",
+					"type": "Expression"
+				}
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

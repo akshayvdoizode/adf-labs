@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "Raw Data sets"
+			"name": "Configs"
 		},
 		"annotations": [],
 		"type": "Json",
