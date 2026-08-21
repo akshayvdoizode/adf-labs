@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ADF-de-labs-avd"
+		},
+		"CleanDataConn_accountKey": {
+			"value": ""
+		},
+		"ImmutableCopyConn_accountKey": {
+			"value": ""
+		},
+		"RawData_accountKey": {
+			"value": ""
+		},
+		"CleanDataConn_properties_typeProperties_url": {
+			"value": "https://cleandataavdoyizode.dfs.core.windows.net/"
+		},
+		"ImmutableCopyConn_properties_typeProperties_url": {
+			"value": "https://immutablecopyavdoyizode.dfs.core.windows.net/"
+		},
+		"RawData_properties_typeProperties_url": {
+			"value": "https://rawdataavdoyizode.dfs.core.windows.net/"
+		}
+	}
+}
