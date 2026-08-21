@@ -1,0 +1,22 @@
+{
+	"name": "Orders",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ImmutableCopyConn",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "LandingZone Datasets"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "orders"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

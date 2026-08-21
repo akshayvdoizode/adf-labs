@@ -1,0 +1,22 @@
+{
+	"name": "Customers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ImmutableCopyConn",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "LandingZone Datasets"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "customers"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
