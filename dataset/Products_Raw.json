@@ -1,0 +1,50 @@
+{
+	"name": "Products_Raw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RawData",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Raw Data sets"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "products"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "product_id",
+				"type": "String"
+			},
+			{
+				"name": "product_name",
+				"type": "String"
+			},
+			{
+				"name": "category",
+				"type": "String"
+			},
+			{
+				"name": "price",
+				"type": "String"
+			},
+			{
+				"name": "currency",
+				"type": "String"
+			},
+			{
+				"name": "active_flag",
+				"type": "String"
+			}
+		]
+	}
+}
