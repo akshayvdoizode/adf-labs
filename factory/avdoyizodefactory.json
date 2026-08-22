@@ -1,0 +1,15 @@
+{
+	"name": "avdoyizodefactory",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d098b6f9-65bb-4752-b913-e7b6e2324b40",
+		"tenantId": "b419efa0-36e1-4443-ac41-f79cf7016d3f"
+	}
+}
