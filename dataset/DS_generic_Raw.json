@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"folder_name": {
+			"folder_path": {
 				"type": "string"
 			}
 		},
@@ -15,11 +15,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": {
-					"value": "@dataset().folder_name",
+				"folderPath": {
+					"value": "@dataset().folder_path",
 					"type": "Expression"
 				},
-				"folderPath": "raw",
 				"fileSystem": "mysql-de-labs"
 			},
 			"columnDelimiter": ",",
