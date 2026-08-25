@@ -1,0 +1,45 @@
+{
+	"name": "DS_config",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLS_conn",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "config",
+				"fileSystem": "mysql-de-labs"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"source_container": {
+					"type": "string"
+				},
+				"file_pattern": {
+					"type": "string"
+				},
+				"sink_container": {
+					"type": "string"
+				},
+				"sink_format": {
+					"type": "string"
+				},
+				"load_type": {
+					"type": "string"
+				},
+				"partition_column": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
