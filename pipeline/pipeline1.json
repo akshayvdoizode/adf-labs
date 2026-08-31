@@ -3,47 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Get Metadata1",
-				"type": "GetMetadata",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataset": {
-						"referenceName": "DS_generic_Raw",
-						"type": "DatasetReference",
-						"parameters": {
-							"folder_path": {
-								"value": "raw",
-								"type": "Expression"
-							}
-						}
-					},
-					"fieldList": [
-						"childItems"
-					],
-					"storeSettings": {
-						"type": "AzureBlobFSReadSettings",
-						"recursive": true,
-						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "DelimitedTextReadSettings"
-					}
-				}
-			},
-			{
-				"name": "ForEach",
+				"name": "ForEach1",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Get Metadata1",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -52,12 +16,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Get Metadata1').output.childItems",
+						"value": "@activity('Lookup1').output",
 						"type": "Expression"
 					},
 					"activities": [
 						{
-							"name": "Get Metadata2",
+							"name": "Get Metadata1",
 							"type": "GetMetadata",
 							"dependsOn": [],
 							"policy": {
@@ -70,11 +34,19 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DS_generic_Raw",
+									"referenceName": "DS_sales_generic",
 									"type": "DatasetReference",
 									"parameters": {
-										"folder_path": {
-											"value": "@concat('raw/', item().name)",
+										"container": {
+											"value": "@item().container",
+											"type": "Expression"
+										},
+										"folder": {
+											"value": "@concat(item().sourceFolder,'/',item().region)",
+											"type": "Expression"
+										},
+										"processing_date": {
+											"value": "@pipeline().parameters.processing_date",
 											"type": "Expression"
 										}
 									}
@@ -93,11 +65,11 @@
 							}
 						},
 						{
-							"name": "Copy data1",
+							"name": "Copy data1_copy1",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Get Metadata2",
+									"activity": "Get Metadata1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -117,11 +89,10 @@
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
-										"wildcardFolderPath": {
-											"value": "@concat('raw/', item().name)",
+										"wildcardFileName": {
+											"value": "@item().filePattern",
 											"type": "Expression"
 										},
-										"wildcardFileName": "*.csv",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -151,11 +122,19 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DS_generic_Raw",
+									"referenceName": "DS_sales_generic",
 									"type": "DatasetReference",
 									"parameters": {
-										"folder_path": {
-											"value": "@concat('raw/', item().name)",
+										"container": {
+											"value": "@item().container",
+											"type": "Expression"
+										},
+										"folder": {
+											"value": "@concat(item().sourceFolder,'/',item().region)",
+											"type": "Expression"
+										},
+										"processing_date": {
+											"value": "@pipeline().parameters.processing_date",
 											"type": "Expression"
 										}
 									}
@@ -163,64 +142,67 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DS_generic_Raw",
+									"referenceName": "DS_sales_generic",
 									"type": "DatasetReference",
 									"parameters": {
-										"folder_path": {
-											"value": "@concat('archive/', item().name)",
+										"container": {
+											"value": "@item().container",
+											"type": "Expression"
+										},
+										"folder": {
+											"value": "@concat(item().finalFolder,'/',item().region,'/',pipeline().parameters.processing_date)",
+											"type": "Expression"
+										},
+										"processing_date": {
+											"value": "@pipeline().parameters.processing_date",
 											"type": "Expression"
 										}
 									}
 								}
 							]
-						},
-						{
-							"name": "Delete1",
-							"type": "Delete",
-							"dependsOn": [
-								{
-									"activity": "Copy data1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"dataset": {
-									"referenceName": "DS_generic_Raw",
-									"type": "DatasetReference",
-									"parameters": {
-										"folder_path": "@concat('raw/', item().name)"
-									}
-								},
-								"logStorageSettings": {
-									"linkedServiceName": {
-										"referenceName": "ADLS_conn",
-										"type": "LinkedServiceReference"
-									}
-								},
-								"enableLogging": true,
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								}
-							}
 						}
 					]
 				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "DS_config",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
 			}
 		],
+		"parameters": {
+			"processing_date": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
-		"lastPublishTime": "2026-08-25T14:28:58Z"
+		"lastPublishTime": "2026-08-31T16:42:48Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

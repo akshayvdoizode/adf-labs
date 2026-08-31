@@ -2,7 +2,7 @@
 	"name": "DS_config",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ADLS_conn",
+			"referenceName": "LC_ADLS",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,33 +10,30 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "cdc.json",
 				"folderPath": "config",
-				"fileSystem": "mysql-de-labs"
+				"fileSystem": "raw"
 			}
 		},
 		"schema": {
 			"type": "object",
 			"properties": {
-				"name": {
-					"type": "string"
-				},
-				"source_container": {
-					"type": "string"
-				},
-				"file_pattern": {
-					"type": "string"
-				},
-				"sink_container": {
-					"type": "string"
-				},
-				"sink_format": {
-					"type": "string"
-				},
-				"load_type": {
-					"type": "string"
-				},
-				"partition_column": {
-					"type": "string"
+				"regions": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"region": {
+								"type": "string"
+							},
+							"sourceFolder": {
+								"type": "string"
+							},
+							"filePattern": {
+								"type": "string"
+							}
+						}
+					}
 				}
 			}
 		}
