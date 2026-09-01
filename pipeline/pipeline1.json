@@ -263,17 +263,17 @@
 											"type": "Expression"
 										},
 										"folder": {
-											"value": "@concat(item().sourceFolder,'/',item().region,'/')",
+											"value": "@concat(item().sourceFolder,'/',item().region,'/',pipeline().parameters.processing_date)",
 											"type": "Expression"
 										},
 										"processing_date": {
-											"value": "@item()",
+											"value": "@pipeline().parameters.processing_date",
 											"type": "Expression"
 										}
 									}
 								},
 								"fieldList": [
-									"exists"
+									"childItems"
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
@@ -322,6 +322,11 @@
 		"parameters": {
 			"processing_date": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"current_path": {
+				"type": "String"
 			}
 		},
 		"annotations": [],
