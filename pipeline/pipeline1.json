@@ -160,6 +160,80 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Copy data1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "JsonSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"wildcardFolderPath": {
+											"value": "@concat(item().sourceFolder,'/',item().region,'/')",
+											"type": "Expression"
+										},
+										"wildcardFileName": "empty.json",
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "JsonReadSettings"
+									}
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_config",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_cdc_update",
+									"type": "DatasetReference",
+									"parameters": {
+										"container": {
+											"value": "@item().container",
+											"type": "Expression"
+										},
+										"folder": {
+											"value": "@concat(item().sourceFolder,'/',item().region,'/')",
+											"type": "Expression"
+										},
+										"processing_time": {
+											"value": "@pipeline().parameters.processing_date",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
 					]
 				}

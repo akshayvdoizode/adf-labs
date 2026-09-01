@@ -1,0 +1,28 @@
+{
+	"name": "DS_cdc_update",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLS_conn",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"container": {
+				"type": "string"
+			},
+			"folder": {
+				"type": "string"
+			},
+			"processing_time": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation"
+			}
+		},
+		"schema": {}
+	}
+}
