@@ -19,7 +19,7 @@
 				}
 			},
 			{
-				"name": "execute_orders",
+				"name": "execute_products",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -45,7 +45,7 @@
 						]
 					},
 					{
-						"activity": "execute_orders",
+						"activity": "execute_products",
 						"dependencyConditions": [
 							"Succeeded"
 						]
