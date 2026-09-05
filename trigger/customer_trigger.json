@@ -1,0 +1,24 @@
+{
+	"name": "customer_trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline2",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/raw/blobs/daily/customers/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/db602649-f746-48f0-838f-1f1e8af5cf01/resourceGroups/adf-labs/providers/Microsoft.Storage/storageAccounts/rawdataavdoyizode",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
