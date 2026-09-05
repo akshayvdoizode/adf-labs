@@ -1,0 +1,15 @@
+{
+	"name": "avd-adf-labs",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "westus3",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "1f17493c-eb33-42eb-ab05-3ab3ad1723d4",
+		"tenantId": "b419efa0-36e1-4443-ac41-f79cf7016d3f"
+	}
+}
